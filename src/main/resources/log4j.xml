@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender class="org.apache.log4j.RollingFileAppender" name="defaultAppender">
+		<param name="File" value="${java.io.tmpdir}/netflixWorkshop.log" />
+		<param name="Append" value="false" />
+		<param name="ImmediateFlush" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="MaxBackupIndex" value="7" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %C{1}.%M: %m%n" />
+		</layout>
+	</appender>
+	
+	<appender class="org.apache.log4j.RollingFileAppender" name="finishedThreadAppender">
+		<param name="File" value="${java.io.tmpdir}/correlationThread.log" />
+		<param name="Append" value="false" />
+		<param name="ImmediateFlush" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="MaxBackupIndex" value="7" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %C{1}.%M: %m%n" />
+		</layout>
+	</appender>
+	
+	<logger name="edu.mta.ok.nworkshop" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="defaultAppender" />
+	</logger>
+	
+	<logger name="correlationThread" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="finishedThreadAppender" />
+	</logger>				
+
+	<root>
+		<priority value="ERROR" />
+		<appender-ref ref="defaultAppender" />
+	</root>
+</log4j:configuration>
