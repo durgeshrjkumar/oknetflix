@@ -9,8 +9,8 @@ _Describe how to install the project before running predictors_
 
  # Download the supplied betterprobe.txt from the project's Downloads page and save it under %DATA_SET%/downloads (the directory that contains the training_set directory with all 17770 text files).
  # Open the project source code with your preferred IDE. *In Eclipse:* go to "File->Import->Existing Projects Into Workspace" and select the %PROJECT_HOME% folder (Please notice that if you don't use Eclipse you'll need to manually add the supplied jama1.0.2.jar file located under %PROJECT_HOME%/lib to the project's classpath). 
- # Change NETFLIX_MODEL_DIR initialization in "Constants.java" file from "E:/FinalProject..." into %DATA_SET%/downloads (the folder containing the downloaded betterprobe.txt file).
- # Change NETFLIX_OUTPUT_DIR initialization in "Constants.java" file from "E:/FinalProject..." into %PROJECT_HOME%/binFiles.
+ # Change NETFLIX_MODEL_DIR initialization in "Constants.java" file from "E:/finalproject..." into %DATA_SET%/downloads (the folder containing the downloaded betterprobe.txt file).
+ # Change NETFLIX_OUTPUT_DIR initialization in "Constants.java" file from "E:/finalproject..." into %PROJECT_HOME%/binFiles.
  # Compile "Installer.java" and run the compiled code. *In Eclipse:* open the Installer class (ctrl+shift+t) and go to "Run->Run Configurations...". Then, add a new "Java Application" runner and write the following parameters in the arguments tab under "VM Arguments": "-Xmx3300m -Xms3300m". Then simply press "Run" and wait until the class will finish running.
 
-Now you are ready to move on to the Usage wiki for instructions on how to run the various predictors.
+Now you are ready to move on to the [Usage] wiki for instructions on how to run the various predictors.
