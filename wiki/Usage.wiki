@@ -30,6 +30,12 @@ ModelUtils.calculateCommonRatersNum(new MovieIndexedModelRatings(), new UserInde
 PreProcessItemViewUsers processClass = new PreProcessItemViewUsers(Constants.NETFLIX_OUTPUT_DIR + "cleanedMovieIndexedSlabDates.data", Constants.NETFLIX_OUTPUT_DIR + "cleanedUserIndexedSlabDates.data");
 processClass.calcFinalValues();
    }}}
+   # Calculate interpolation similarity model:
+   {{{
+InterpolationSimilarityResiduals sim = new InterpolationSimilarityResiduals(Constants.NETFLIX_OUTPUT_DIR + "cleanedMovieIndexedSlabDates.data", Constants.NETFLIX_OUTPUT_DIR + "cleanedUserIndexedSlabDates.data");
+sim.calculateSimilarities();
+sim.saveCalculatedData(Constants.NETFLIX_OUTPUT_DIR + "interpolation\\similarityModel.data");
+   }}}
    # Convert the similarity model to float in order to decrease memory consumption:
    {{{
 ModelUtils.convertDoubleModelIntoFloat(Constants.NETFLIX_OUTPUT_DIR + "interpolation\\similarityModel.data", Constants.NETFLIX_OUTPUT_DIR + "interpolation\\similarityModel-Float.data");
@@ -42,13 +48,13 @@ ImprovedKNNPredictionResiduals predictor = new ImprovedKNNPredictionResiduals(
 PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/InterpolationPredictorResiduals-" + DEFAULT_NEIGHBOARS_NUM +"Neighbors.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
    }}}
  * == _SVD_ ==
-   # Run Predictor (the number of features is taken from predictors,properties file):
+   Run Predictor (the number of features is taken from predictors,properties file):
    {{{
 SVDFeaturePredictor predictor = new SVDFeaturePredictor();
 PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/SVD.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
    }}}
  * == _Improved SVD_ ==
-   # Run predictor (the number of features is taken from predictors,properties file):
+   Run predictor (the number of features is taken from predictors,properties file):
    {{{
 ImprovedSVDFeaturePredictor predictor = new ImprovedSVDFeaturePredictor();
 PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/ImprovedSVD.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
