@@ -12,11 +12,47 @@ For a full description regarding every property, please see the documentation in
 
 = Predictors Usage =
 
+*Remark:* All classes mentioned below should be run with heap size set to at least 3000m (we recommend setting it to 3300m).
+
 Before running the predictors it's advised to run the AlgorithmRunner class and push the "Run Global Effects Calculator" button in order to calculate the models containing global effects residuals as rating data.
 
  * == _KNN Predictor_ ==
-   
+   # Run PearsonCorrelationCoefifcientSimilarity/ PearsonCorrelationCoefifcientSimilarityRawScores class (according to the wanted model type), in order to calculate the similarity model used by the KNN predictor (the classes contain a main method for easy run).
+   # Run the predictor class (KNNGlobalEffectPredictor/KNNPredictor according to the wanted model type).
 
+ * == _Improved KNN Predictor_ ==
+   # Calculate the common raters model:
+   {{{
+ModelUtils.calculateCommonRatersNum(new MovieIndexedModelRatings(), new UserIndexedModelRatings());
+   }}}
+   # Calculate the interpolation values by running the PreProcessItemViewUsers class:
+   {{{
+PreProcessItemViewUsers processClass = new PreProcessItemViewUsers(Constants.NETFLIX_OUTPUT_DIR + "cleanedMovieIndexedSlabDates.data", Constants.NETFLIX_OUTPUT_DIR + "cleanedUserIndexedSlabDates.data");
+processClass.calcFinalValues();
+   }}}
+   # Convert the similarity model to float in order to decrease memory consumption:
+   {{{
+ModelUtils.convertDoubleModelIntoFloat(Constants.NETFLIX_OUTPUT_DIR + "interpolation\\similarityModel.data", Constants.NETFLIX_OUTPUT_DIR + "interpolation\\similarityModel-Float.data");
+   }}} 
+   # Run the improved knn predictor:
+   {{{
+ImprovedKNNPredictionResiduals predictor = new ImprovedKNNPredictionResiduals(
+				InterpolationSimilarityRawScores.getSimilarityFromFile(Constants.NETFLIX_OUTPUT_DIR + "interpolation\\similarityModel-Float.data", true),new UserIndexedModelResiduals(), Constants.NETFLIX_OUTPUT_DIR + "interpolation\\moviesCommonUsersLists-Final.data");
+	
+PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/InterpolationPredictorResiduals-" + DEFAULT_NEIGHBOARS_NUM +"Neighbors.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
+   }}}
+ * == _SVD_ ==
+   # Run Predictor (the number of features is taken from predictors,properties file):
+   {{{
+SVDFeaturePredictor predictor = new SVDFeaturePredictor();
+PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/SVD.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
+   }}}
+ * == _Improved SVD_ ==
+   # Run predictor (the number of features is taken from predictors,properties file):
+   {{{
+ImprovedSVDFeaturePredictor predictor = new ImprovedSVDFeaturePredictor();
+PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/ImprovedSVD.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
+   }}}
 
  
 
