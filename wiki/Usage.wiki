@@ -17,8 +17,22 @@ For a full description regarding every property, please see the documentation in
 Before running the predictors it's advised to run the AlgorithmRunner class and push the "Run Global Effects Calculator" button in order to calculate the models containing global effects residuals as rating data.
 
  * == _KNN Predictor_ ==
-   # Run PearsonCorrelationCoefifcientSimilarity/ PearsonCorrelationCoefifcientSimilarityRawScores class (according to the wanted model type), in order to calculate the similarity model used by the KNN predictor (the classes contain a main method for easy run).
-   # Run the predictor class (KNNGlobalEffectPredictor/KNNPredictor according to the wanted model type).
+   # Calculate similarity model:
+   {{{
+SimilarityCalculator simCalc = new PearsonCorrelationCoefifcientSimilarity();		
+
+simCalc.calculateSimilarities();		
+
+simCalc.saveCalculatedData(Constants.NETFLIX_OUTPUT_DIR + "residualsSimilarityModelScores.data");
+   }}}
+   # Run the predictor class:
+   {{{
+KNNGlobalEffectPredictor predictorClass = new KNNGlobalEffectPredictor(PearsonCorrelationCoefifcientSimilarity.getSimilarityFromFile(Constants.NETFLIX_OUTPUT_DIR + "\\residualsSimilarityModelScores.data"), 
+				new UserIndexedModelResiduals(), PredictorProperties.getInstance().getPredictorIntProperty(Predictors.KNN, PropertyKeys.NEIGHBORS_NUM, 50), Constants.NETFLIX_OUTPUT_DIR + "globalEffects/Effect11.data");
+PredictionTester.getProbeError(predictorClass, Constants.NETFLIX_OUTPUT_DIR + "Predictions/KNN.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
+   }}}
+
+   _Remark:_ In the current section we explained how to run the KNN algorithm using global effects residuals as ratings data, in order to run the algorithm using the raw ratings scores you'll need to run the appropriate similarity and predictor classes (for more information see [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/predictor/KNNPredictor.java KNNPredictor] and [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/similarity/PearsonCorrelationCoefifcientSimilarityRawScores.java PearsonCorrelationCoefifcientSimilarityRawScores].
 
  * == _Improved KNN Predictor_ ==
    # Calculate the common raters model:
@@ -59,13 +73,13 @@ PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predic
 ImprovedSVDFeaturePredictor predictor = new ImprovedSVDFeaturePredictor();
 PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/ImprovedSVD.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
    }}}
+ * == _Combine Predictions_ ==
+   After calculating the predictions files from different algorithms, you can combine the results by running the [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/ui/AlgorithmRunner.java AlgorithmRunner] class and pressing the "Combine Predictions" button. The button simply loads all the text files located in binFiles/Predictions and calls [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/predictor/CombinePredictions.java CombinePredictions] with the loaded predictions.
 
- 
+= Achieving 0.8988 RMSE Score =
 
- 
+We achieved our RMSE score by combining results from the following algorithms:
 
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ * KNN: 
+   # Raw ratings data, 10 neighbors - RMSE 
+   
