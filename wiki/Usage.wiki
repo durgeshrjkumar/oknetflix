@@ -10,7 +10,7 @@ Different parameters used by the predictors can be configured using the [http://
 Every predictor has its own parameters marked by the predictor name as a prefix follow by the parameter name. For example, in order to configure the number of neighbors used by the KNN predictor, you should edit the "knn.neighborsNum" property.
 For a full description regarding every property, please see the documentation inside the file.
 
-= Predictors Usage =
+= Running the predictors =
 
 *Remark:* All classes mentioned below should be run with heap size set to at least 3000m (we recommend setting it to 3300m).
 
