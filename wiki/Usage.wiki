@@ -2,10 +2,26 @@ _Describe how to run the various predictors algorithms_
 
 = Introduction =
 
-Add your content here.
+In this wiki we'll explain in details how to configure and run the predictors implemented in the project.
+
+= Configuration =
+
+Different parameters used by the predictors can be configured using the [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/resources/predictors.properties predictors.properties] file located in the resources folder.
+Every predictor has its own parameters marked by the predictor name as a prefix follow by the parameter name. For example, in order to configure the number of neighbors used by the KNN predictor, you should edit the "knn.neighborsNum" property.
+For a full description regarding every property, please see the documentation inside the file.
+
+= Predictors Usage =
+
+Before running the predictors it's advised to run the AlgorithmRunner class and push the "Run Global Effects Calculator" button in order to calculate the models containing global effects residuals as rating data.
+
+ * == _KNN Predictor_ ==
+   
 
 
-= Details =
+ 
+
+ 
+
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
