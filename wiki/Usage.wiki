@@ -14,7 +14,7 @@ For a full description regarding every property, please see the documentation in
 
 *Remark:* All classes mentioned below should be run with heap size set to at least 3000m (we recommend setting it to 3300m).
 
-Before running the predictors it's advised to run the AlgorithmRunner class and push the "Run Global Effects Calculator" button in order to calculate the models containing residuals of global effects as rating data.
+Before running the predictors it's advised to run the [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/ui/AlgorithmRunner.java AlgorithmRunner] class and push the "Run Global Effects Calculator" button in order to calculate the models containing residuals of global effects as rating data.
 
  * == _KNN Predictor_ ==
    # Calculate similarity model:
@@ -73,8 +73,18 @@ PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predic
 ImprovedSVDFeaturePredictor predictor = new ImprovedSVDFeaturePredictor();
 PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/ImprovedSVD.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
    }}}
+ * == _KNN-SVD_==
+  _Prerequisite: The following example assumes that there is a pre calculated SVD model created from SVD/Improved SVD algorithm. The file name is SVD-256-features.data located under SVD folder in the output files folder._
+  Run predictor:
+  {{{
+KNNSVDPredictor predictor = new KNNSVDPredictor(SVDFeaturePredictor.getPredictor(Constants.NETFLIX_OUTPUT_DIR + "SVD/SVD-256-features.data"));
+predictor.setUserModel(new UserIndexedModelRatings());
+PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predictions/KNNRegularSVD.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME); 
+  }}}
  * == _Combine Predictions_ ==
    After calculating the predictions files from different algorithms, you can combine the results by running the [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/ui/AlgorithmRunner.java AlgorithmRunner] class and pressing the "Combine Predictions" button. The button simply loads all the text files located in binFiles/Predictions and calls [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/predictor/CombinePredictions.java CombinePredictions] with the loaded predictions.
+
+*REMARK:* All predictors support loading pre calculated data from binary files in order to reduce running time. For more information see the main method inside the predictors classes.
 
 = Achieving 0.8988 RMSE Score =
 
