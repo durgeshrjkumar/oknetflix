@@ -140,8 +140,6 @@ public abstract class InterpolationSimilarityAbstract extends MovieIndexedSimila
 
 		similaritiesCalculated = true;
 		
-		convertModelToFloat();
-		
 		System.out.println("Finished entire process. took " + (System.currentTimeMillis() - startAll));
 	}
 	
