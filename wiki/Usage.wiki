@@ -14,7 +14,7 @@ For a full description regarding every property, please see the documentation in
 
 *Remark:* All classes mentioned below should be run with heap size set to at least 3000m (we recommend setting it to 3300m).
 
-Before running the predictors it's advised to run the AlgorithmRunner class and push the "Run Global Effects Calculator" button in order to calculate the models containing global effects residuals as rating data.
+Before running the predictors it's advised to run the AlgorithmRunner class and push the "Run Global Effects Calculator" button in order to calculate the models containing residuals of global effects as rating data.
 
  * == _KNN Predictor_ ==
    # Calculate similarity model:
@@ -32,7 +32,7 @@ KNNGlobalEffectPredictor predictorClass = new KNNGlobalEffectPredictor(PearsonCo
 PredictionTester.getProbeError(predictorClass, Constants.NETFLIX_OUTPUT_DIR + "Predictions/KNN.txt", Constants.NETFLIX_OUTPUT_DIR + Constants.DEFAULT_PROBE_FILE_NAME);
    }}}
 
-   _Remark:_ In the current section we explained how to run the KNN algorithm using global effects residuals as ratings data, in order to run the algorithm using the raw ratings scores you'll need to run the appropriate similarity and predictor classes (for more information see [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/predictor/KNNPredictor.java KNNPredictor] and [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/similarity/PearsonCorrelationCoefifcientSimilarityRawScores.java PearsonCorrelationCoefifcientSimilarityRawScores].
+   _Remark:_ In the current section we explained how to run the KNN algorithm using residuals of global effects as ratings data, in order to run the algorithm using the raw ratings scores you'll need to run the appropriate similarity and predictor classes (for more information see [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/predictor/KNNPredictor.java KNNPredictor] and [http://code.google.com/p/oknetflix/source/browse/trunk/src/main/java/edu/mta/ok/nworkshop/similarity/PearsonCorrelationCoefifcientSimilarityRawScores.java PearsonCorrelationCoefifcientSimilarityRawScores].
 
  * == _Improved KNN Predictor_ ==
    # Calculate the common raters model:
@@ -81,5 +81,25 @@ PredictionTester.getProbeError(predictor, Constants.NETFLIX_OUTPUT_DIR + "Predic
 We achieved our RMSE score by combining results from the following algorithms:
 
  * KNN: 
-   # Raw ratings data, 10 neighbors - RMSE 
-   
+   # RMSE=1.0460. k=20 using raw ratings data.
+   # RMSE=1.0515. k=30 using raw ratings data.
+   # RMSE=1.0621. k=50 using raw ratings data.
+   # RMSE=0.9311. k=20 using residuals of all 11 global effects.
+   # RMSE=0.9299. k=30 using residuals of all 11 global effects.
+   # RMSE=0.9308. k=50 using residuals of all 11 global effects.
+ * Improved KNN (Bellkor interpolation):
+   # RMSE=0.9285. k=20 using residuals of all 11 global effects.
+   # RMSE=0.9260. k=30 using residuals of all 11 global effects.
+   # RMSE=0.9241. k=50 using residuals of all 11 global effects.
+ * SVD:
+   # RMSE=0.9235. Factors=10 using raw ratings data.
+   # RMSE=0.9079. Factors=96 using raw ratings data.
+   # RMSE=0.9058. Factors=256 using raw ratings data.
+ * Improved SVD:
+   # RMSE=0.9228. Factors=10 using raw ratings data.
+   # RMSE=0.9078. Factors=96 using raw ratings data.
+   # RMSE=0.9055. Factors=256 using raw ratings data.
+ * KNN-SVD:
+   # RMSE=1.2319. Factors=256, k=1 using raw ratings data.
+ * Global effects:
+   # RMSE=0.9658. using all 11 global effects.
